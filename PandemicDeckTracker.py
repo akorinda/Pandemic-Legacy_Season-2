@@ -13,7 +13,7 @@ def new_game(infection_deck, player_deck):
         if val['city'] == 'Hollow Men':
             val['location'] = 'discard'
         elif (val['city'] != 'inoculated' and 
-              val['citiy'] != 'destoryed'):
+              val['city'] != 'destroyed'):
             val['location'] = 'deck'
             
     for key, val in player_deck['cities'].items():
@@ -172,11 +172,12 @@ cmd_list = [
     'new game',
     'new deck',
     'save deck',
+    'open deck',
     'draw CARD',
     'infect CITY',
     'inoculate CITY',
     'connect CITY',
-    'destory CARD',
+    'destroy CARD',
     # TODO: request statistics
     'end game'
     ]
@@ -219,6 +220,22 @@ pldeck = {
 print('-------------------\n' + 
       'Welcome to Pandemic Legacy Season 2\n\tCard Tracker\n' + 
       '-------------------\n')
+
+while True:
+    usr_cmd = input('[N]ew Game or [O]pen Deck: ')
+    usr_cmd = usr_cmd.lower()
+    
+    if (usr_cmd == 'n' or
+        usr_cmd == 'new game'):
+        infdeck, pldeck, plpiles = new_game(infdeck, pldeck)
+        print('Good Luck!')
+        break
+    elif (usr_cmd == 'o' or
+          usr_cmd == 'open deck'):
+        print('Selected action has no function yet')
+        break
+    else:
+        print('Command not recognized. Please try again')
 
 while True:
     usr_cmd = input('Command: ')
