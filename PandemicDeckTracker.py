@@ -5,7 +5,7 @@ Created on Sat Aug 15 09:52:08 2020
 @author: Andy Korinda
 """
 
-#import shelve
+import json
 import math
 
 def new_game(infection_deck, player_deck):
@@ -65,6 +65,30 @@ def new_game(infection_deck, player_deck):
         
     return infection_deck, player_deck, pile
 
+def open_deck():
+    with open('infection.json', 'r') as f:
+        infection_deck = json.load(f)
+        
+    with open('player.json', 'r') as f:
+        player_deck = json.load(f)
+        
+    with open('piles.json', 'r') as f:
+        piles = json.load(f)
+     
+    return infection_deck, player_deck, piles
+
+def save_deck(infection_deck, player_deck, piles):    
+    with open('infection.json', 'w') as f:
+        json.dump(infection_deck, f)
+        
+    with open('player.json', 'w') as f:
+        json.dump(player_deck, f)
+        
+    with open('piles.json', 'w') as f:
+        json.dump(piles, f)
+        
+    return
+
 def city_verb(city, verb, deck):
     city = city.title()
     
@@ -91,7 +115,7 @@ def connect_city(city, infection_deck, player_deck):
         except ValueError:
             pass
     for ii in range(1,city_qty):
-        infection_deck['cities'][max(player_deck['cities'])+1] = {'city': city, 
+        infection_deck['cities'][max(infection_deck['cities'])+1] = {'city': city, 
                                                  'location': 'game end'}
         player_deck['cities'][max(player_deck['cities'])+1] = {'city': city, 
                                                  'location': 'discard'}
@@ -232,12 +256,14 @@ while True:
         break
     elif (usr_cmd == 'o' or
           usr_cmd == 'open deck'):
-        print('Selected action has no function yet')
+        infdeck, pldeck, plpiles = open_deck()
         break
     else:
         print('Command not recognized. Please try again')
 
 while True:
+    evaluate_decks(infdeck, pldeck, plpiles)
+    
     usr_cmd = input('Command: ')
     usr_cmd = usr_cmd.lower()
     usr_cmd = usr_cmd.strip()
@@ -375,6 +401,14 @@ while True:
                     
                     else:
                         print('Did not recognize the deck')
+                        
+        elif (action == 'save' and 
+              noun == 'deck'):
+            save_deck(infdeck, pldeck, plpiles)
+        
+        elif (action == 'open' and 
+              noun == 'deck'):
+            infdeck, pldeck, plpiles = open_deck()
                 
         elif (action == 'end' and 
               noun == 'game'):
@@ -388,5 +422,4 @@ while True:
               'Available commands are:\t')
         for x in cmd_list:
             print('\t' + x)
-    
-    evaluate_decks(infdeck, pldeck, plpiles)
+        
