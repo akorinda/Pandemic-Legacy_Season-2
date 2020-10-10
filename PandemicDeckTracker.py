@@ -56,7 +56,7 @@ def new_game(infection_deck, player_deck):
     cards_extra = card_cnt % player_deck['epidemic']
 
     pile = {}
-    for ii in range(0, player_deck['epidemic']):
+    for ii in range(player_deck['epidemic']):
         if cards_extra > 0:
             extra = 1
             cards_extra -= 1
@@ -122,7 +122,7 @@ def connect_city(city, infection_deck, player_deck):
         except ValueError:
             pass
 
-    for ii in range(1, city_qty):
+    for ii in range(city_qty):
         try:
             infection_deck['cities'][str(len(infection_deck['cities']) + 1)] = {'city': city,
                                                                                      'location': 'game end'}
@@ -245,7 +245,7 @@ cmd_list = [
 ]
 
 action_list = []
-for x in range(0, (len(cmd_list))):
+for x in range(len(cmd_list)):
     action_list.append(cmd_list[x].split(' ', 1)[0])
 
 infdeck = {
@@ -454,6 +454,7 @@ while True:
 
         elif (action == 'end' and
               noun == 'game'):
+            print('Ending the program')
             break
 
         else:
@@ -463,6 +464,7 @@ while True:
         pass
 
     elif (action =='exit'):
+        print('Ending the program')
         break
 
     else:
