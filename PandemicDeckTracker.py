@@ -39,12 +39,12 @@ def new_game(infection_deck, player_deck):
     print('Use ' + str(ep_cards) + ' epidemic card')
     player_deck['epidemic'] = ep_cards
 
-    request_qty = True
-    while request_qty:
+    ask_qty = True
+    while ask_qty:
         rationed_qty = input('How man rationed events do you get? ')
         try:
             player_deck['rationed'] = int(rationed_qty)
-            request_qty = False
+            ask_qty = False
         except ValueError:
             pass
 
@@ -125,7 +125,7 @@ def connect_city(city, infection_deck, player_deck):
     for ii in range(city_qty):
         try:
             infection_deck['cities'][str(len(infection_deck['cities']) + 1)] = {'city': city,
-                                                                                     'location': 'game end'}
+                                                                                'location': 'game end'}
 
         except ValueError:
             infection_deck['cities']['1'] = {'city': city, 'location': 'game end'}
@@ -137,7 +137,7 @@ def connect_city(city, infection_deck, player_deck):
 
         try:
             player_deck['cities'][str(len(player_deck['cities']) + 1)] = {'city': city,
-                                                                               'location': 'discard'}
+                                                                          'location': 'discard'}
 
         except ValueError:
             player_deck['cities']['1'] = {'city': city, 'location': 'discard'}
@@ -174,6 +174,8 @@ def evaluate_decks(infection_deck, player_deck, piles):
         'top': 0,
         'deck': 0
     }
+    inoc_qty = 0
+
     for loc_key in loc_cnts:
         deck_cnt = {}
         for key, val in infection_deck['cities'].items():
@@ -200,6 +202,13 @@ def evaluate_decks(infection_deck, player_deck, piles):
         if loc_cnts[loc_key] > 5:
             break
 
+    # TODO: display how many infection cards are inoculated
+    for key, val in infection_deck['cities'].items():
+        if val['location'] == 'inoculated':
+            inoc_qty += 1
+
+    print(str(inoc_qty) + ' infection cards are inoculated')
+
     # TODO: calculate the probability of an epidemic
     loc_cnts.clear
     loc_cnts = {
@@ -212,7 +221,6 @@ def evaluate_decks(infection_deck, player_deck, piles):
                 city = val['city']
                 loc_cnts[loc_key] += 1
 
-    # TODO: display how many infection cards are inoculated
     # TODO: display how many player cards are inoculated
     # TODO: display the total size of the non-inoculated player deck
 
@@ -460,10 +468,10 @@ while True:
         else:
             print('Selected action has no function yet')
 
-    elif (action == 'interupt'):
+    elif action == 'interrupt':
         pass
 
-    elif (action =='exit'):
+    elif action == 'exit':
         print('Ending the program')
         break
 
