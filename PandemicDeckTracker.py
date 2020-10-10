@@ -121,9 +121,10 @@ def connect_city(city, infection_deck, player_deck):
             break
         except ValueError:
             pass
+
     for ii in range(1, city_qty):
         try:
-            infection_deck['cities'][str(int(max(infection_deck['cities'])) + 1)] = {'city': city,
+            infection_deck['cities'][str(len(infection_deck['cities']) + 1)] = {'city': city,
                                                                                      'location': 'game end'}
 
         except ValueError:
@@ -132,9 +133,10 @@ def connect_city(city, infection_deck, player_deck):
 
         except TypeError:
             print('Fatal Error, none integer value used as city key')
+            break
 
         try:
-            player_deck['cities'][str(int(max(player_deck['cities'])) + 1)] = {'city': city,
+            player_deck['cities'][str(len(player_deck['cities']) + 1)] = {'city': city,
                                                                                'location': 'discard'}
 
         except ValueError:
@@ -143,6 +145,7 @@ def connect_city(city, infection_deck, player_deck):
 
         except TypeError:
             print('Fatal Error, none integer value used as city key')
+            break
 
     return infection_deck, player_deck
 
