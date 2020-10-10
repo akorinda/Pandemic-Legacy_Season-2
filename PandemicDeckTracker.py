@@ -13,12 +13,12 @@ def new_game(infection_deck, player_deck):
     for key, val in infection_deck['cities'].items():
         if val['city'] == 'Hollow Men':
             val['location'] = 'discard'
-        elif (val['city'] != 'inoculated' and
-              val['city'] != 'destroyed'):
+        elif (val['location'] != 'inoculated' and
+              val['location'] != 'destroyed'):
             val['location'] = 'deck'
 
+    city_count = 0
     for key, val in player_deck['cities'].items():
-        city_count = 0
         if (val['location'] == 'deck' or
                 val['location'] == 'discard'):
             city_count += 1
@@ -36,7 +36,7 @@ def new_game(infection_deck, player_deck):
     else:
         ep_cards = 10
 
-    print('Use ' + str(ep_cards) + '  epidemic card')
+    print('Use ' + str(ep_cards) + ' epidemic card')
     player_deck['epidemic'] = ep_cards
 
     request_qty = True
@@ -197,12 +197,19 @@ def evaluate_decks(infection_deck, player_deck, piles):
 
     # TODO: calculate the probability of an epidemic
     loc_cnts.clear
-    loc_cnts = {'deck': 0}
+    loc_cnts = {
+        'deck': 0,
+        'discard': 0
+    }
     for key, val in player_deck['cities'].items():
         for loc_key in loc_cnts:
             if val['location'] == loc_key:
                 city = val['city']
                 loc_cnts[loc_key] += 1
+
+    # TODO: display how many infection cards are inoculated
+    # TODO: display how many player cards are inoculated
+    # TODO: display the total size of the non-inoculated player deck
 
 
 def epidemic(infection_deck):
@@ -443,6 +450,9 @@ while True:
         elif (action == 'end' and
               noun == 'game'):
             break
+
+        elif (action == 'interupt'):
+            pass
 
         else:
             print('Selected action has no function yet')
