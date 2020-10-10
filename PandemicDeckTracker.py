@@ -98,7 +98,9 @@ def city_verb(city, verb, deck):
 
     found = False
     for key, val in deck['cities'].items():
-        if val['city'] == city and val['location'] == 'deck':
+        if (val['city'] == city and (
+                val['location'] == 'deck' or
+                val['location'] == 'top')):
             val['location'] = 'discard'
             found = True
             break
@@ -451,11 +453,14 @@ while True:
               noun == 'game'):
             break
 
-        elif (action == 'interupt'):
-            pass
-
         else:
             print('Selected action has no function yet')
+
+    elif (action == 'interupt'):
+        pass
+
+    elif (action =='exit'):
+        break
 
     else:
         print('That is an unknown action, please try again.\n' +
